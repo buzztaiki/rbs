@@ -62,7 +62,7 @@ end
 
     assert_write parser.decls, <<-EOF
 class Hello
-  def hello: (untyped a, ?::Integer b, *untyped c, untyped d, e: untyped, ?f: ::Integer, **untyped g) { () -> untyped } -> nil
+  def hello: (untyped a, ?::Integer b, *untyped c, untyped d, e: untyped, ?f: ::Integer, **untyped g) ?{ () -> untyped } -> nil
 
   def self.world: () { (untyped, untyped, untyped, x: untyped, y: untyped) -> untyped } -> untyped
 
@@ -566,7 +566,7 @@ end
     rb = <<-EOR
 # Comments for class.
 # This is a comment.
-class Hello
+class Hello # :nodoc:
   # Comment for include.
   include Foo
 
@@ -890,8 +890,8 @@ end
       [%{{a: nil}}, %{ { a: nil } }],
       [%{{"a" => /b/}}, %{ ::Hash[::String, ::Regexp] }],
     ].each do |rb, rbs|
-      node = RubyVM::AbstractSyntaxTree.parse(rb).children[2]
-      assert_equal RBS::Parser.parse_type(rbs), parser.literal_to_type(node)
+      node = RubyVM::AbstractSyntaxTree.parse("_ = #{rb}").children[2]
+      assert_equal RBS::Parser.parse_type(rbs), parser.literal_to_type(node.children[1])
     end
   end
 
