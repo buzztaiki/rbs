@@ -1,15 +1,17 @@
 version: 2
-open-pull-requests-limit: 0
 updates:
   - package-ecosystem: "bundler"
+    open-pull-requests-limit: 0
     directory: "/"
     schedule:
       interval: "daily"
   - package-ecosystem: "bundler"
+    open-pull-requests-limit: 0
     directory: "/steep"
     schedule:
       interval: "daily"
   - package-ecosystem: 'github-actions'
+    open-pull-requests-limit: 0
     directory: '/'
     schedule:
       interval: 'weekly'
